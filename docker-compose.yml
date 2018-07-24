@@ -1,5 +1,9 @@
 version: '3.1'
 
+networks:
+  cloud_tier:
+    driver: bridge
+
 services:
   config_server:
     build:
@@ -9,6 +13,8 @@ services:
     restart: on-failure
     ports:
       - 8888:8888
+    networks:
+      - cloud_tier
 
   service_discovery:
     build:
@@ -18,6 +24,8 @@ services:
     restart: on-failure
     ports:
       - 8761:8761
+    networks:
+      - cloud_tier
     depends_on:
       - config_server
 
@@ -29,6 +37,8 @@ services:
     restart: on-failure
     ports:
       - 8081:8081
+    networks:
+      - cloud_tier
     depends_on:
       - config_server
       - service_discovery
@@ -41,6 +51,8 @@ services:
     restart: on-failure
     ports:
       - 8011:8011
+    networks:
+      - cloud_tier
     depends_on:
       - config_server
       - service_discovery
@@ -55,6 +67,8 @@ services:
     restart: on-failure
     ports:
       - 8001:8001
+    networks:
+      - cloud_tier
     depends_on:
       - config_server
       - service_discovery
@@ -70,6 +84,8 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    networks:
+      - cloud_tier
 
   mongodb:
     image: mongo
@@ -77,3 +93,5 @@ services:
     restart: on-failure
     ports:
       - 27017:27017
+    networks:
+      - cloud_tier

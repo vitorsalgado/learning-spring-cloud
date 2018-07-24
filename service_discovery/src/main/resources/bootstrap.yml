@@ -6,4 +6,13 @@ spring:
     name: discovery-service
   cloud:
     config:
-      uri: http://config_server:8888
+      uri: http://config_server
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
+logging:
+  level:
+    com.netflix.eureka: OFF
+

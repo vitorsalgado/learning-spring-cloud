@@ -6,4 +6,4 @@ spring:
     name: sender-service
   cloud:
     config:
-      uri: http://config_server:8888
+      uri: http://config_server
