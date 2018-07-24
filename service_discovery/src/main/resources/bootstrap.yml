@@ -1,0 +1,9 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: discovery-service
+  cloud:
+    config:
+      uri: http://config_server:8888

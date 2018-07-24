@@ -1,0 +1,9 @@
+server:
+  port: 8011
+
+spring:
+  application:
+    name: consumer-service
+  cloud:
+    config:
+      uri: http://config_server:8888

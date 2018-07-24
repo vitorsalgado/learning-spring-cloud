@@ -1,0 +1,15 @@
+# build stage
+# -----------------------------------------------------
+FROM gradle:jdk8
+
+COPY --chown=gradle:gradle . /home/gradle/src
+WORKDIR /home/gradle/src
+RUN gradle :service_discovery:build
+
+# run stage
+# -----------------------------------------------------
+FROM openjdk:8-alpine
+WORKDIR /app
+COPY --from=0 /home/gradle/src/service_discovery/build/libs/service_discovery-1.0.0.jar .
+
+CMD java -jar service_discovery-1.0.0.jar

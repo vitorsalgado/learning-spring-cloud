@@ -5,3 +5,7 @@ spring:
         messaging:
           path: /message/**
           serviceId: sender-service
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://service_discovery:8761/eureka/

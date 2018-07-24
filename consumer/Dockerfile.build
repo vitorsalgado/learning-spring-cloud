@@ -1,0 +1,15 @@
+# build stage
+# -----------------------------------------------------
+FROM gradle:jdk8
+
+COPY --chown=gradle:gradle . /home/gradle/src
+WORKDIR /home/gradle/src
+RUN gradle :consumer:build
+
+# run stage
+# -----------------------------------------------------
+FROM openjdk:8-alpine
+WORKDIR /app
+COPY --from=0 /home/gradle/src/consumer/build/libs/consumer-1.0.0.jar .
+
+CMD java -jar consumer-1.0.0.jar
