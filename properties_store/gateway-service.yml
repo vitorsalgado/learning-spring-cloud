@@ -5,7 +5,12 @@ spring:
         messaging:
           path: /message/**
           serviceId: sender-service
+
 eureka:
   client:
+    registerWithEureka: true
+    fetchRegistry: true
     serviceUrl:
       defaultZone: http://service_discovery/eureka/
+  instance:
+    hostname: localhost
