@@ -1,0 +1,79 @@
+version: '3.1'
+
+services:
+  config_server:
+    build:
+      context: ./
+      dockerfile: ./config_server/Dockerfile
+    container_name: com.concrete.spring.config_server
+    restart: on-failure
+    ports:
+      - 8888:8888
+
+  service_discovery:
+    build:
+      context: ./
+      dockerfile: ./service_discovery/Dockerfile
+    container_name: com.concrete.spring.service_discovery
+    restart: on-failure
+    ports:
+      - 8761:8761
+    depends_on:
+      - config_server
+
+  api_gateway:
+    build:
+      context: ./
+      dockerfile: ./gateway/Dockerfile
+    container_name: com.concrete.spring.api_gateway
+    restart: on-failure
+    ports:
+      - 8081:8081
+    depends_on:
+      - config_server
+      - service_discovery
+
+  consumer:
+    build:
+      context: ./
+      dockerfile: ./consumer/Dockerfile
+    container_name: com.concrete.spring.consumer
+    restart: on-failure
+    ports:
+      - 8011:8011
+    depends_on:
+      - config_server
+      - service_discovery
+      - rabbitmq
+      - mongodb
+
+  sender:
+    build:
+      context: ./
+      dockerfile: ./sender/Dockerfile
+    container_name: com.concrete.spring.sender
+    restart: on-failure
+    ports:
+      - 8001:8001
+    depends_on:
+      - config_server
+      - service_discovery
+      - rabbitmq
+      - mongodb
+    deploy:
+      replicas: 2
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: com.concrete.spring.rabbitmq
+    restart: on-failure
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  mongodb:
+    image: mongo
+    container_name: com.concrete.spring.mongodb
+    restart: on-failure
+    ports:
+      - 27017:27017

@@ -1,0 +1,89 @@
+apply plugin: 'idea'
+
+buildscript {
+  ext {
+    springBootVersion = Versions.spring_boot
+  }
+
+  repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/libs-snapshot' }
+  }
+
+  dependencies {
+    classpath "io.spring.gradle:dependency-management-plugin:${Versions.spring_dependency_management_plugin}"
+    classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+    classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    classpath "org.jetbrains.kotlin:kotlin-allopen:${Versions.kotlin}"
+  }
+}
+
+allprojects {
+  wrapper {
+    gradleVersion = "4.9"
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+  }
+}
+
+subprojects {
+  apply plugin: 'java'
+  apply plugin: 'kotlin'
+  apply plugin: 'kotlin-spring'
+  apply plugin: 'idea'
+  apply plugin: 'io.spring.dependency-management'
+  apply plugin: "org.springframework.boot"
+
+  sourceCompatibility = 1.8
+  targetCompatibility = 1.8
+  group = 'com.concrete.spring'
+  version = '1.0.0'
+
+  repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/libs-snapshot' }
+  }
+
+  dependencyManagement {
+    imports {
+      mavenBom "org.springframework.cloud:spring-cloud-dependencies:${Versions.spring_cloud}"
+    }
+  }
+
+  dependencies {
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${Versions.junit}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${Versions.junit}"
+    testImplementation("org.springframework.boot:spring-boot-starter-test") { exclude module: 'junit' }
+    testImplementation "org.mockito:mockito-core:${Versions.mockito}"
+    testImplementation "org.mockito:mockito-junit-jupiter:${Versions.mockito}"
+  }
+
+  test {
+    useJUnitPlatform()
+    testLogging {
+      events 'skipped', 'failed'
+      showStackTraces true
+      showStandardStreams = true
+      exceptionFormat 'full'
+    }
+    reports {
+      html.enabled = true
+    }
+  }
+
+  compileKotlin {
+    kotlinOptions {
+      freeCompilerArgs = ["-Xjsr305=strict"]
+      jvmTarget = "1.8"
+    }
+  }
+  compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+  }
+
+  sourceSets {
+    test.java.srcDirs += 'src/integrationTest/java'
+    test.kotlin.srcDirs += 'src/integrationTest/kotlin'
+    test.resources.srcDirs += 'src/integrationTest/resources'
+  }
+}
