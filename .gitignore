@@ -34,7 +34,7 @@ out/
 # Gradle files
 .gradle/
 /build/
-/build/**
+build/**
 !gradle/wrapper/gradle-wrapper.jar
 
 # Build Tools
