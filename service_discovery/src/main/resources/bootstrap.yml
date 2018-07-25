@@ -11,13 +11,17 @@ spring:
 
 eureka:
   instance:
-    prefer-ip-address: true
+    hostname: registry
+    nonSecurePort: ${server.port}
   client:
     registerWithEureka: false
     fetchRegistry: false
     server:
       waitTimeInMsWhenSyncEmpty: 0
+    service-url:
+      default-zone: http://${eureka.instance.hostname}:${server.port}/eureka/
 
 logging:
   level:
     com.netflix.eureka: OFF
+    com.netflix.discovery: OFF
