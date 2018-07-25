@@ -6,7 +6,7 @@ eureka:
     service-url:
       default-zone: http://${eureka.instance.hostname}:${eureka.instance.nonSecurePort}/eureka/
     register-with-eureka: true
-    fetch-registry: true
+    fetch-registry: false
 
 spring:
   rabbitmq:
