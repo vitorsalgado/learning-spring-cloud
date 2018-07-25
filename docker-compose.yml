@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3'
 
 networks:
   cloud_tier:
@@ -16,11 +16,11 @@ services:
     networks:
       - cloud_tier
 
-  service_discovery:
+  registry:
     build:
       context: ./
       dockerfile: ./service_discovery/Dockerfile
-    container_name: com.concrete.spring.service_discovery
+    container_name: com.concrete.spring.registry
     restart: on-failure
     ports:
       - 8761:8761
@@ -41,7 +41,6 @@ services:
       - cloud_tier
     depends_on:
       - config_server
-      - service_discovery
 
   consumer:
     build:
@@ -55,9 +54,6 @@ services:
       - cloud_tier
     depends_on:
       - config_server
-      - service_discovery
-      - rabbitmq
-      - mongodb
 
   sender:
     build:
@@ -71,11 +67,6 @@ services:
       - cloud_tier
     depends_on:
       - config_server
-      - service_discovery
-      - rabbitmq
-      - mongodb
-    deploy:
-      replicas: 2
 
   rabbitmq:
     image: rabbitmq:3-management

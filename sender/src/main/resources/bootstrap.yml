@@ -3,7 +3,8 @@ server:
 
 spring:
   application:
-    name: sender-service
+    name: sender
   cloud:
     config:
-      uri: http://config_server
+      uri: http://config_server:8888
+      fail-fast: true

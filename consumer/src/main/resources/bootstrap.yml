@@ -6,4 +6,10 @@ spring:
     name: consumer-service
   cloud:
     config:
-      uri: http://config_server
+      uri: http://config_server:8888
+      fail-fast: true
+  data:
+    mongodb:
+      host: mongodb
+      database: consumer
+      port: 27017
