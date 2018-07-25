@@ -8,3 +8,7 @@ eureka:
 spring:
   rabbitmq:
     host: rabbitmq
+
+logging:
+  level:
+    org.apache.http.wire=: DEBUG
