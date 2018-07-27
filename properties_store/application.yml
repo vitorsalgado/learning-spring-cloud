@@ -1,15 +1,7 @@
-eureka:
-  instance:
-    hostname: registry
-  client:
-    service-url:
-      default-zone: http://registry:8761/eureka
-    register-with-eureka: true
-    fetch-registry: false
-
 spring:
   rabbitmq:
     host: rabbitmq
+    port: 5672
 
 logging:
   level:

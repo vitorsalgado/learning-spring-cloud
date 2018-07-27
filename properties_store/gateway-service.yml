@@ -5,3 +5,10 @@ spring:
         messaging:
           path: /message/**
           serviceId: sender
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://registry:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
