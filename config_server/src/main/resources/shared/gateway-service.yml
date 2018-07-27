@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        messaging:
+          path: /message/**
+          serviceId: sender
