@@ -1,10 +1,9 @@
 eureka:
   instance:
     hostname: registry
-    nonSecurePort: 8761
   client:
     service-url:
-      default-zone: http://${eureka.instance.hostname}:${eureka.instance.nonSecurePort}/eureka/
+      default-zone: http://registry:8761/eureka
     register-with-eureka: true
     fetch-registry: false
 
@@ -17,8 +16,3 @@ logging:
     org.apache.http.wire: DEBUG
     com.netflix.eureka: DEBUG
     com.netflix.discovery: DEBUG
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://service_discovery:8761/eureka
